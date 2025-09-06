@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Filing Process - Large Flowchart</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            overflow-x: auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .flowchart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            overflow-x: auto;
+            min-height: 800px;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 1400px;
+            width: 100%;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        .zoom-controls {
+            margin: 10px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        @media print {
+            .controls, .footer { display: none; }
+            body { 
+                background: white; 
+                margin: 0;
+                padding: 0;
+            }
+            .flowchart-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 20px;
+                page-break-inside: avoid;
+            }
+            @page {
+                size: A2 landscape;
+                margin: 0.5in;
+            }
+            .mermaid {
+                transform: scale(0.8);
+                transform-origin: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏛️ Dubai Courts Case Filing Process</h1>
+        <div class="subtitle">Complete Process Flow from Login to Final Verdict</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="window.print()">🖨️ Print as PDF</button>
+        <button class="btn" onclick="downloadSVG()">📥 Download SVG</button>
+        <button class="btn" onclick="copyToClipboard()">📋 Copy Mermaid Code</button>
+        <div class="zoom-controls">
+            <button class="btn" onclick="zoomIn()">🔍 Zoom In</button>
+            <button class="btn" onclick="zoomOut()">🔍 Zoom Out</button>
+            <button class="btn" onclick="resetZoom()">🎯 Reset Zoom</button>
+        </div>
+    </div>
+
+    <div class="flowchart-container" id="flowchart-container">
+        <div class="mermaid" id="mermaid-chart">
+flowchart TD
+    START[🔐 Login to Dubai Courts Portal<br/>Using UAE Pass] --> USER_CHECK{👤 User Exists?}
+    
+    USER_CHECK -->|❌ No| CREATE_USER[➕ Create New User]
+    CREATE_USER --> WAIT_DASHBOARD[⏰ Wait for Dashboard Generation<br/>1 Hour]
+    WAIT_DASHBOARD --> DASHBOARD_CHECK{🖥️ Dashboard Accessible?}
+    
+    USER_CHECK -->|✅ Yes| PARTY_CASES[📋 Navigate to Party Cases]
+    DASHBOARD_CHECK -->|✅ Yes| PARTY_CASES
+    DASHBOARD_CHECK -->|❌ No| ACCESS_REQUEST[📝 Submit Access Permission Request<br/>1 Day]
+    ACCESS_REQUEST --> PARTY_CASES
+    
+    PARTY_CASES --> CASE_CHECK{🔍 Case Showing<br/>Under User?}
+    CASE_CHECK -->|❌ No| LINK_REQUEST[🔗 Submit Linking Case<br/>to User Request<br/>3 Days]
+    LINK_REQUEST --> CASE_LINKED[✅ Case Linked to User]
+    CASE_LINKED --> A[📝 Draft General Appeal Memo]
+    CASE_CHECK -->|✅ Yes| A
+    
+    A --> B[📤 Submit Registration Request]
+    B --> C{⚖️ Court Response<br/>Within 48 Hours}
+    
+    C -->|📄 Additional Documents Required| D[📎 Submit Additional Documents]
+    D --> C
+    
+    C -->|✅ Approval + Payment Link| E[💳 Pay Registration Fee<br/>AED 435.5]
+    
+    E --> F[🌐 Case Appears on User Portal<br/>Next Day<br/>• 📅 First Hearing Date<br/>• 👨‍⚖️ Judge Information]
+    
+    F --> G[📋 Submit Detailed Appeal Memo<br/>Before First Hearing]
+    
+    G --> H[🏛️ First Hearing<br/>3-4 Weeks After Registration]
+    
+    H --> I[⏳ Court Adjourns for Judgment<br/>Sets Date 3-4 Weeks Later]
+    
+    I --> J{⚖️ Judgment Type}
+    
+    J -->|🏁 Final Judgment| K[✅ Case Closed]
+    
+    J -->|📊 Primary Judgment| L[👨‍💼 Court Appoints Financial/Banking Expert<br/>Sets Expert Fee Payment Deadline: 1 Week<br/>Sets Hearing Date if Fees Not Paid]
+    
+    L --> M{💰 Expert Fees Paid?<br/>Usually by Other Party Bank}
+    
+    M -->|❌ Not Paid| N[🏛️ Final Hearing on Pre-Set Date<br/>Court Adjourns for Final Judgment]
+    M -->|✅ Paid| O[📅 Next Hearing in 4 Weeks]
+    
+    O --> P[👨‍💼 Expert Appointed<br/>Calls Parties for First Session<br/>Within 1-2 Weeks]
+    
+    P --> Q[🤝 Expert Session 1<br/>• Expert meets with parties<br/>• Documents exchanged]
+    
+    Q --> R[📧 Expert Sends Documents to Parties<br/>For Comments]
+    
+    R --> S[📊 Expert Sends Primary Report<br/>2-3 Weeks After First Session<br/>Parties Comment]
+    
+    S --> T[📋 Expert Submits Final Report<br/>Within 1-2 Weeks]
+    
+    T --> U{📅 Scheduled Court Date}
+    
+    U -->|⏰ Date Not Yet Reached| V[🏛️ Hearing on Originally Set Date]
+    U -->|⏰ Date Already Passed| W[📅 Court Sets New Date]
+    
+    V --> X[👨‍⚖️ Court Reviews Expert Report<br/>Adjourns for 1 Week<br/>For Parties' Comments to Court]
+    W --> X
+    
+    X --> Y[💬 Parties Submit Comments<br/>to Court]
+    
+    Y --> Z[⏳ Case Adjourned for Final Verdict<br/>Within 2 Weeks]
+    
+    Z --> AA[⚖️ Final Verdict Issued]
+    
+    N --> BB[⚖️ Final Judgment Issued]
+    BB --> CC[✅ Case Closed]
+    
+    style START fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    style A fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style K fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style AA fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style BB fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style CC fill:#c8e6c9,stroke:#388e3c,stroke-width:3px
+    style USER_CHECK fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style DASHBOARD_CHECK fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style CASE_CHECK fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style C fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style J fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style M fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    style U fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>💡 Tip:</strong> Use browser zoom (Cmd/Ctrl + or -) for optimal viewing size</p>
+        <p><strong>🖨️ For best print results:</strong> Use landscape orientation and fit to page</p>
+    </div>
+
+    <script>
+        let currentZoom = 1;
+        
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#e3f2fd',
+                primaryTextColor: '#1a237e',
+                primaryBorderColor: '#1976d2',
+                lineColor: '#424242',
+                sectionBkgColor: '#f8f9fa',
+                altSectionBkgColor: '#ffffff',
+                gridColor: '#e0e0e0',
+                noteBkgColor: '#fff3e0',
+                noteBorderColor: '#f57c00'
+            },
+            flowchart: {
+                curve: 'basis',
+                padding: 15,
+                nodeSpacing: 70,
+                rankSpacing: 80,
+                useMaxWidth: false,
+                htmlLabels: true
+            }
+        });
+
+        function zoomIn() {
+            currentZoom += 0.1;
+            applyZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(0.3, currentZoom - 0.1);
+            applyZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const chart = document.getElementById('mermaid-chart');
+            chart.style.transform = `scale(${currentZoom})`;
+            chart.style.transformOrigin = 'center';
+        }
+
+        function downloadSVG() {
+            const svg = document.querySelector('#mermaid-chart svg');
+            if (svg) {
+                const svgData = new XMLSerializer().serializeToString(svg);
+                const blob = new Blob([svgData], {type: 'image/svg+xml'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'case-filing-process.svg';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function copyToClipboard() {
+            const mermaidCode = document.getElementById('mermaid-chart').textContent;
+            navigator.clipboard.writeText(mermaidCode).then(() => {
+                alert('Mermaid code copied to clipboard!');
+            });
+        }
+
+        // Add click interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const nodes = document.querySelectorAll('.mermaid g.node');
+                nodes.forEach(node => {
+                    node.style.cursor = 'pointer';
+                    node.addEventListener('click', function() {
+                        const nodeText = this.querySelector('text')?.textContent || 'Node';
+                        const cleanText = nodeText.replace(/[📝📤⚖️🏛️👨‍⚖️📋💳🌐📅👨‍💼💰🤝📧📊⏰💬⏳✅❌➕🔐👤🖥️📄🔍🔗📎🏁📊]/g, '').trim();
+                        alert('Process Step: ' + cleanText);
+                    });
+                });
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
